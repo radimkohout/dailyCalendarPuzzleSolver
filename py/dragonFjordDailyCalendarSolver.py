@@ -36,7 +36,7 @@ def CreatePieces():
     return [O,t,Q,BigS,SmallsTail,BigL,U,Lequal]
     
 if __name__ == "__main__":
-    userDate = input('Calendar puzzle date to solve (ex: 31/01/2022), leave empty for today's date): ")
+    userDate = input("Calendar puzzle date to solve (ex: 31/01/2022), leave empty for today's date): ")
     if len(userDate)== 0:
         userDate = datetime.now().strftime("%d/%m/%Y")
         print("Solving current date {}".format(userDate))

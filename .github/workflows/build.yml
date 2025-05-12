@@ -31,4 +31,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+                ls
+                cd py
+                ls
                 gh release upload v1.0 *.out -R radimkohout/dailyCalendarPuzzleSolver

@@ -14,9 +14,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Install python and deps
         run: |
-          apt update
-          apt install -y python3 python-is-python3 python3-pip
-          pip install datetime
+          sudo apt update
+          sudo apt install -y python3 python-is-python3 python3-pip
+          sudo pip install datetime
       - name: Run solver
         run: |
           cd py

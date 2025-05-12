@@ -24,6 +24,7 @@ jobs:
           for i in {1..31}; do
             for text in "${texts[@]}"; do
               python3 ./${{matrix.type}}$text.py <<< $"$i/${{matrix.months}}/${{matrix.years}}" > ${{matrix.type}}-$i.${{matrix.months}}.${{matrix.years}}$text.out
+              echo "$i-$text"
             done
           done
       - name: Upload

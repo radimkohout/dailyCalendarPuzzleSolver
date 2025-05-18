@@ -4,6 +4,7 @@ on: workflow_dispatch
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         months: [1,2,3,4,5,6,7,8,9,10,11,12]
         years: [2017, 2001, 2013, 2003, 2009, 2010, 2005]

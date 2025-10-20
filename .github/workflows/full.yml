@@ -34,4 +34,4 @@ jobs:
                 ls
                 cd py
                 ls
-                gh release upload v1.0 *.out -R radimkohout/dailyCalendarPuzzleSolver --clobber
+                gh release upload v1.0-${{github.event.inputs.month}} *.out -R radimkohout/dailyCalendarPuzzleSolver --clobber

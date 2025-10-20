@@ -1,0 +1,38 @@
+name: Build
+
+on: workflow_dispatch
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        months: [1,2,3,4,5,6,7,8,9,10,11,12]
+        years: [2017, 2001, 2013, 2003, 2009, 2010, 2005]
+        type: [jarringWordsDailyCalendarSolver, dragonFjordDailyCalendarSolver]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install python and deps
+        run: |
+          sudo apt update
+          sudo apt install -y python3 python-is-python3 python3-pip
+          sudo pip install datetime
+      - name: Run solver
+        run: |
+          cd py
+          texts=("-front" "-back" "")
+          for i in {1..31}; do
+            for text in "${texts[@]}"; do
+              python3 ./${{matrix.type}}$text.py <<< $"$i/${{matrix.months}}/${{matrix.years}}" > ${{matrix.type}}-$i.${{matrix.months}}.${{matrix.years}}$text.out
+              echo "$i-$text"
+            done
+          done
+      - name: Upload
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+                ls
+                cd py
+                ls
+                gh release upload v2.0 *.out -R radimkohout/dailyCalendarPuzzleSolver --clobber

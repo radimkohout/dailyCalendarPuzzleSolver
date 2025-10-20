@@ -1,0 +1,37 @@
+name: Fullcal
+
+on: 
+  workflow_dispatch:
+    inputs:
+      month: 
+jobs:
+  build:
+    strategy:
+      matrix:
+        days: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+        years: [2017, 2001, 2013, 2003, 2009, 2010, 2005]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install python and deps
+        run: |
+          sudo apt update
+          sudo apt install -y python3 python-is-python3 python3-pip
+          sudo pip install datetime
+      - name: Run solver
+        run: |
+          cd py
+          texts=("-front" "-back" "")
+          for text in "${texts[@]}"; do
+            python3 ./poodlepuzzleDailyCalendarSolver$text.py <<< $"${{matrix.days}}/${{github.event.inputs.month}}/${{matrix.years}}" > poodlepuzzleDailyCalendarSolver-${{matrix.days}}.${{github.event.inputs.month}}.${{matrix.years}}$text.out
+            echo "$i$text"
+          done
+      - name: Upload
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+                ls
+                cd py
+                ls
+                gh release upload v1.0 *.out -R radimkohout/dailyCalendarPuzzleSolver --clobber
